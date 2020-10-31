@@ -7,15 +7,15 @@ void sx::miner::on_gravy( const name from, const name to, const asset quantity, 
     const name contract = "gravyhftdefi"_n;
     const symbol_code symcode = symbol_code{"GRV"};
 
-    // now check
-    gravy::stat _stat(contract, symcode.raw());
-    const int64_t now = current_time_point().time_since_epoch().count();
-    const int64_t last_mine_time = _stat.get(symcode.raw()).last_mine_time;
-    check(now != last_mine_time, "Error 3080002: transaction exceeded the current network usage limit imposed on the transaction");
-}
+    // only mine once per block
+    sx::miner::state _state( get_self(), get_self().value );
+    auto state = _state.get_or_default();
+    const time_point last = current_time_point();
+    check(state.last != last, "can only mine 1 block per transaction");
 
-[[eosio::action]]
-void sx::miner::test()
-{
-    print("time");
+    // update state
+    state.last = last;
+    state.count += 1;
+    state.total += quantity;
+    _state.set(state, get_self());
 }

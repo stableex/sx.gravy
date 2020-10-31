@@ -2,7 +2,7 @@
 
 #include <eosio/eosio.hpp>
 #include <eosio/asset.hpp>
-#include <eosio/system.hpp>
+#include <eosio/singleton.hpp>
 
 namespace sx {
 
@@ -11,7 +11,7 @@ using eosio::asset;
 using eosio::symbol_code;
 using eosio::current_time_point;
 using eosio::check;
-using eosio::time_point_sec;
+using eosio::time_point;
 using eosio::print;
 
 using std::string;
@@ -20,8 +20,12 @@ class [[eosio::contract("miner.sx")]] miner : public eosio::contract {
 public:
     using contract::contract;
 
-    [[eosio::action]]
-    void test();
+    struct [[eosio::table("state")]] state_row {
+        time_point      last;
+        uint64_t        count;
+        asset           total;
+    };
+    typedef eosio::singleton< "state"_n, state_row > state;
 
     [[eosio::on_notify("gravyhftdefi::transfer")]]
     void on_gravy( const name from, const name to, const asset quantity, const string memo );
