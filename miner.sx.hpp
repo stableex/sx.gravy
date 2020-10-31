@@ -22,8 +22,8 @@ public:
 
     struct [[eosio::table("state")]] state_row {
         time_point      last;
-        uint64_t        count;
-        asset           total;
+        uint64_t        count = 0;
+        asset           total = asset{0, symbol{"GRV", 8}};
     };
     typedef eosio::singleton< "state"_n, state_row > state;
 
