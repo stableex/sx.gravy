@@ -28,7 +28,7 @@ void sx::gravy::on_gravy( const name from, const name to, const asset quantity, 
 
     // empty GRV
     const asset balance = eosio::token::get_balance( contract, get_self(), symbol_code{"GRV"});
-    if ( balance.amount > 20000000 ) {
+    if ( balance.amount > 10000000 ) {
         eosio::token::transfer_action transfer( contract, { get_self(), "active"_n });
         transfer.send(get_self(), "swap.defi"_n, balance, "swap,0,786");
     }
@@ -37,6 +37,6 @@ void sx::gravy::on_gravy( const name from, const name to, const asset quantity, 
     const asset balance_eos = eosio::token::get_balance( "eosio.token"_n, get_self(), symbol_code{"EOS"});
     if ( balance_eos.amount > 0 ) {
         eosio::token::transfer_action transfer_eos( "eosio.token"_n, { get_self(), "active"_n });
-        transfer_eos.send(get_self(), "fee.sx"_n, balance_eos, "gravy");
+        transfer_eos.send(get_self(), "cpu.sx"_n, balance_eos, "gravy");
     }
 }
