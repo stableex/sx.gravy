@@ -12,20 +12,21 @@ using eosio::symbol_code;
 using eosio::current_time_point;
 using eosio::check;
 using eosio::time_point;
+using eosio::symbol;
 using eosio::print;
 
 using std::string;
 
-class [[eosio::contract("miner.sx")]] miner : public eosio::contract {
+class [[eosio::contract("gravy.sx")]] gravy : public eosio::contract {
 public:
     using contract::contract;
 
-    struct [[eosio::table("state")]] state_row {
-        time_point      last;
-        uint64_t        count = 0;
-        asset           total = asset{0, symbol{"GRV", 8}};
-    };
-    typedef eosio::singleton< "state"_n, state_row > state;
+    // struct [[eosio::table("state")]] state_row {
+    //     time_point      last;
+    //     uint64_t        count = 0;
+    //     asset           total = asset{0, symbol{"GRV", 8}};
+    // };
+    // typedef eosio::singleton< "state"_n, state_row > state;
 
     [[eosio::on_notify("gravyhftdefi::transfer")]]
     void on_gravy( const name from, const name to, const asset quantity, const string memo );
