@@ -39,7 +39,7 @@ void sx::gravy::on_gravy( const name from, const name to, const asset quantity, 
     if ( balance_eos.amount > 0 ) {
         eosio::eosiosystem::deposit_action deposit( "eosio"_n, { get_self(), "active"_n });
         eosio::eosiosystem::rentcpu_action rentcpu( "eosio"_n, { get_self(), "active"_n });
-        deposit.send(get_self(), balance );
-        rentcpu.send(get_self(), get_self(), balance, asset{0, balance.symbol });
+        deposit.send(get_self(), balance_eos );
+        rentcpu.send(get_self(), get_self(), balance_eos, asset{0, balance_eos.symbol });
     }
 }
