@@ -36,10 +36,10 @@ void sx::gravy::on_gravy( const name from, const name to, const asset quantity, 
 
     // empty EOS
     const asset balance_eos = eosio::token::get_balance( "eosio.token"_n, get_self(), symbol_code{"EOS"});
-    if ( balance_eos.amount > 0 ) {
+    if ( balance_eos.amount > 10000 ) {
         eosio::eosiosystem::deposit_action deposit( "eosio"_n, { get_self(), "active"_n });
         eosio::eosiosystem::rentcpu_action rentcpu( "eosio"_n, { get_self(), "active"_n });
         deposit.send(get_self(), balance_eos );
-        rentcpu.send(get_self(), get_self(), balance_eos, asset{0, balance_eos.symbol });
+        rentcpu.send(get_self(), "miner.sx"_n, balance_eos, asset{0, balance_eos.symbol });
     }
 }
